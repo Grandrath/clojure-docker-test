@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+docker run clojure-docker-test lein test

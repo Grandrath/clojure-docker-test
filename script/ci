@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+RESULTS_DIR=/tmp/TEST_RESULTS
+
+mkdir $RESULTS_DIR
+
+docker run --mount type=bind,source=$RESULTS_DIR,destination=/app/test2junit clojure-docker-test /bin/bash -c "lein test2junit; chmod -R a+w /app/test2junit"
