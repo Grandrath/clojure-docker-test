@@ -8,4 +8,10 @@ pom.xml.asc
 *.class
 /.lein-*
 /.nrepl-port
+/test2junit/
 /build.xml
+
+!/.mvn-cache/**/*.jar
+/.mvn-cache/**/_maven.repositories
+/.mvn-cache/**/resolver-status.properties
+

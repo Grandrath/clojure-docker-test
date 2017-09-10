@@ -6,5 +6,6 @@
   :dependencies [[org.clojure/clojure "1.8.0"]]
   :main ^:skip-aot docker-test.core
   :target-path "target/%s"
+  :local-repo ".mvn-cache"
   :profiles {:dev     {:plugins [[test2junit "1.2.5"]]}
              :uberjar {:aot :all}})
