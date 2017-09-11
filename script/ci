@@ -1,8 +1,16 @@
 #!/usr/bin/env bash
 
-RESULTS_DIR=/tmp/TEST_RESULTS
+SCRIPT_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BASE_PATH="${SCRIPT_PATH}/.."
 
-rm -rf $RESULTS_DIR
-mkdir $RESULTS_DIR
+BUILD_IMAGE=clojure-docker-test-build
+PRODUCTION_IMAGE=clojure-docker-test
 
-docker run --mount type=bind,source=$RESULTS_DIR,destination=/app/test2junit clojure-docker-test /bin/bash -c "lein test2junit; chmod -R a+w /app/test2junit"
+# Build environment
+docker build -t $BUILD_IMAGE -f ${BASE_PATH}/Dockerfile.build $BASE_PATH
+
+# Test and build artefact
+docker run --rm --mount type=bind,source=${BASE_PATH},destination=/app $BUILD_IMAGE /bin/bash -c "lein test2junit; lein uberjar; chmod -R a+w target test2junit"
+
+# Build production image
+docker build -t $PRODUCTION_IMAGE -f ${BASE_PATH}/Dockerfile $BASE_PATH

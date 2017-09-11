@@ -1,14 +1,4 @@
 FROM openjdk:8-alpine
 
-ENV LEIN_ROOT=true
-
-RUN apk --no-cache add bash curl
-RUN curl -o /usr/bin/lein https://raw.githubusercontent.com/technomancy/leiningen/2.7.1/bin/lein
-RUN chmod +x /usr/bin/lein
-RUN /usr/bin/lein > /dev/null
-
-WORKDIR /app
-ADD . /app
-
-RUN /usr/bin/lein deps
-RUN /usr/bin/lein uberjar
+COPY ./target/uberjar/docker-test-0.1.0-SNAPSHOT-standalone.jar /app/
+ENTRYPOINT ["/usr/bin/java", "-jar", "/app/docker-test-0.1.0-SNAPSHOT-standalone.jar"]
